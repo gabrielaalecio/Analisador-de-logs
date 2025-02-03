@@ -27,6 +27,21 @@ def contar_metodos(log):
                 contagem[metodo] = contagem[metodo] + 1
     return contagem
 
+def contar_ips(log):
+    contagem_ips = {}
+    
+    for linha in log:
+        if len(linha) > 1:  
+            ip = linha[0]  
+            
+            if ip in contagem_ips:
+                contagem_ips[ip] += 1
+            else:
+                contagem_ips[ip] = 1
+    
+    return contagem_ips
+
+
 def main():
     leitor = abrir_log()
     #inserir barra de carregamento (status)
@@ -34,6 +49,14 @@ def main():
     print("Quantidade de métodos lidos: ")
     print(f"Get: {contagem['GET']}")
     print(f"Post: {contagem['POST']}")
+
+    contagem_ips = contar_ips(leitor)
+    
+    ips_ordenados = sorted(contagem_ips.items(), key=lambda x: x[1], reverse=True)
+    
+    print("\nTop 5 IPs que mais acessaram:")
+    for ip, quantidade in ips_ordenados[:5]:  
+        print(f"{ip}: {quantidade} acessos")
     
 
 main()
