@@ -8,6 +8,8 @@
 import csv
 from rich.console import Console
 from rich.panel import Panel
+from rich.progress import track
+from rich import print
 import os
 from time import sleep
 
@@ -91,23 +93,27 @@ def hora_mais_acessos(log):
 
 def main():
     leitor = abrir_log()
-    #inserir barra de carregamento (status)
+    for i in track(range(8), description="[green]Carregando...[/]"):
+        sleep(2)
+
+    print("\n[b red]Dados Analisados[/]\n")
+
     contagem = contar_metodos(leitor)
-    print("Quantidade de métodos lidos: ")
+    print("[pink3]Quantidade de métodos lidos: [/]")
     print(f"Get: {contagem['GET']}")
     print(f"Post: {contagem['POST']}")
 
     contagem_ips = contar_ips(leitor)
     ips_ordenados = sorted(contagem_ips.items(), key=lambda x: x[1], reverse=True)
     
-    print("\nTop 5 IPs que mais acessaram:")
+    print("\n[pink3]Top 5 IPs que mais acessaram:[/]")
     for ip, quantidade in ips_ordenados[:5]:  
         print(f"{ip}: {quantidade} acessos")
 
     contar_status = analisar_status(leitor)
-    print(f"\nQuantidade de status de erro: {contar_status['404']}")
-    print(status_sucessos(contar_status)) #contagem de sucessos
-    print(dia_mais_acessos(leitor)) #dias mais acessado
-    print(hora_mais_acessos(leitor)) #hora mais acessada
+    print(f"\n[pink3]Quantidade de status de erro: [/]{contar_status['404']}")
+    print(f"[pink3]Quantidade de status bem-sucedidos: [/]{status_sucessos(contar_status)}")
+    print(f"[pink3]Dia com maior quantidade de acessos: [/][b bright_cyan]{dia_mais_acessos(leitor)}[/]")
+    print(f"[pink3]Horário com maior quantidade de acessos:[/] [b bright_cyan]{hora_mais_acessos(leitor)}hs[/]\n")
 
 main()
