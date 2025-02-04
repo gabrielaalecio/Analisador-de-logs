@@ -33,7 +33,7 @@ def abrir_log():
     return leitor
 
 def contar_perfis(log):
-   return (contar_ocorrencias(log,0))
+   return (contar_ocorrencias(log, 0))
 
 def contar_titulos(log):
     return contar_ocorrencias(log, 4)
@@ -43,6 +43,13 @@ def dia_mais_acessos(log):
 
 def contar_pais(log):
     return contar_ocorrencias(log, 9)[0][0]
+
+###def maior_tempo_assistido(log):
+    return contar_ocorrencias(log, 1, (12, 13))[0][0]
+
+###def horas_por_perfil(log):
+
+###def horas_totais(log):
 
 def main():
     leitor = abrir_log()
@@ -65,6 +72,9 @@ def main():
     print(f"\n[b orange3]Dia mais acessado:[/] [b deep_pink4]{dia_mais_acessos(leitor)}[/]")
 
     print(f"\n[b orange3]País com mais acessos:[/] [b deep_pink4]{contar_pais(leitor)}[/]")
+
+    print(f"\n[b orange3]Maior tempo assistido:[/] [b deep_pink4]{maior_tempo_assistido(leitor)}[/]")
+
 
     
 
